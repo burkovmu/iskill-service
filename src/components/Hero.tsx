@@ -58,7 +58,7 @@ export default function Hero() {
                   className="absolute -top-4 -left-4 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl"
                 />
                 <motion.span
-                  className="inline-block text-blue-600 font-semibold mb-6 px-4 py-1 bg-blue-50 rounded-full shadow-sm"
+                  className="inline-block text-blue-600 font-semibold mb-4 px-3 py-1 bg-blue-50 rounded-full shadow-sm text-sm sm:text-base"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
@@ -66,7 +66,7 @@ export default function Hero() {
                   Сервисный центр Apple
                 </motion.span>
                 <motion.h1 
-                  className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
@@ -76,12 +76,12 @@ export default function Hero() {
                     <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                       ремонт iPhone
                     </span>
-                    <span className="absolute inset-x-0 bottom-0 h-3 bg-blue-200/30 -rotate-1"></span>
+                    <span className="absolute inset-x-0 bottom-0 h-2 sm:h-3 bg-blue-200/30 -rotate-1"></span>
                   </span>{' '}
                   в Москве
                 </motion.h1>
                 <motion.p 
-                  className="text-xl text-gray-600 mb-10 leading-relaxed"
+                  className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
@@ -89,13 +89,13 @@ export default function Hero() {
                   Быстрый и качественный ремонт от сертифицированных мастеров с гарантией на все работы
                 </motion.p>
                 <motion.div
-                  className="flex flex-wrap gap-6"
+                  className="flex flex-col sm:flex-row gap-4 sm:gap-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
                   <motion.button 
-                    className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all duration-300"
+                    className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all duration-300 w-full sm:w-auto"
                     whileHover={{ scale: 1.02, translateY: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setIsModalOpen(true)}
@@ -104,7 +104,7 @@ export default function Hero() {
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-700 to-blue-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </motion.button>
                   <motion.button 
-                    className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-blue-600 bg-white border-2 border-blue-100 hover:border-blue-200 transition-all duration-300"
+                    className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold text-blue-600 bg-white border-2 border-blue-100 hover:border-blue-200 transition-all duration-300 w-full sm:w-auto"
                     whileHover={{ scale: 1.02, translateY: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={scrollToPricing}
