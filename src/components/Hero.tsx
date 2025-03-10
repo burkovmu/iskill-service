@@ -147,7 +147,7 @@ export default function Hero() {
                     alt="iPhone ремонт"
                     width={500}
                     height={600}
-                    className="relative mx-auto w-[280px] sm:w-[320px] md:w-[400px] lg:w-full h-auto max-w-sm lg:max-w-md drop-shadow-2xl"
+                    className="relative mx-auto w-[140px] sm:w-[320px] md:w-[400px] lg:w-full h-auto max-w-sm lg:max-w-md drop-shadow-2xl"
                     priority
                   />
                 </motion.div>
