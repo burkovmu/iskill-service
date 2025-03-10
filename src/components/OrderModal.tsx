@@ -154,7 +154,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </motion.button>
 
                 <p className="text-sm text-gray-500 text-center">
-                  Нажимая кнопку "Отправить заявку", вы соглашаетесь с политикой конфиденциальности
+                  Нажимая кнопку &quot;Отправить заявку&quot;, вы соглашаетесь с политикой конфиденциальности
                 </p>
               </form>
             </div>

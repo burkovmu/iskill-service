@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { FaApple, FaMobileAlt, FaTabletAlt, FaLaptop } from 'react-icons/fa'
+import { FaMobileAlt, FaTabletAlt, FaLaptop } from 'react-icons/fa'
 import OrderModal from './OrderModal'
 
 const priceList = {
