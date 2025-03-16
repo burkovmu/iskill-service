@@ -140,7 +140,7 @@ export default function Reviews() {
                   </div>
                   
                   <p className="text-gray-600 text-lg mb-6 flex-grow">
-                    "{reviews[activeIndex].text}"
+                    &quot;{reviews[activeIndex].text}&quot;
                   </p>
                   
                   <div className="flex flex-wrap gap-2">
