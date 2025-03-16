@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaStar, FaQuoteLeft } from 'react-icons/fa'
 
 const reviews = [
   {
@@ -56,129 +56,176 @@ const reviews = [
 ]
 
 export default function Reviews() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const maxVisibleItems = 3; // Количество видимых элементов на десктопе
-  const maxIndex = Math.max(0, reviews.length - maxVisibleItems);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const nextSlide = () => {
-    setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
   };
 
-  const prevSlide = () => {
-    setCurrentIndex(prev => Math.max(prev - 1, 0));
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
+  };
+
+  const handleDotClick = (index: number) => {
+    setActiveIndex(index);
   };
 
   return (
-    <section id="reviews" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
-          Отзывы наших клиентов
-        </h2>
-        <p className="text-xl text-gray-600 text-center mb-12">
-          Более 5000 довольных клиентов доверили нам свои устройства
-        </p>
-        
-        <div className="relative px-4 md:px-10">
-          {/* Кнопки навигации */}
-          <div className="absolute top-1/2 -left-2 md:left-0 -translate-y-1/2 z-10">
-            <button 
-              onClick={prevSlide}
-              disabled={currentIndex === 0}
-              className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
-                currentIndex === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
-              }`}
-              aria-label="Предыдущий отзыв"
-            >
-              <FaChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
-            </button>
-          </div>
-          
-          <div className="absolute top-1/2 -right-2 md:right-0 -translate-y-1/2 z-10">
-            <button 
-              onClick={nextSlide}
-              disabled={currentIndex === maxIndex}
-              className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
-                currentIndex === maxIndex ? 'text-gray-300 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
-              }`}
-              aria-label="Следующий отзыв"
-            >
-              <FaChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-            </button>
-          </div>
-          
-          {/* Контейнер с отзывами */}
-          <div className="overflow-hidden">
-            <motion.div 
-              ref={containerRef}
-              className="flex gap-4 md:gap-6 lg:gap-8"
-              animate={{ 
-                x: typeof window !== 'undefined' 
-                  ? window.innerWidth < 768 
-                    ? `-${currentIndex * 100}%` 
-                    : window.innerWidth < 1024 
-                      ? `-${currentIndex * 50}%` 
-                      : `-${currentIndex * (100/3)}%`
-                  : `-${currentIndex * (100/3)}%`
-              }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
-              {reviews.map((review, index) => (
+    <section id="reviews" className="py-20 relative overflow-hidden">
+      {/* Фоновый градиент */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50"></div>
+      
+      {/* Декоративные элементы */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+      <div className="absolute bottom-20 right-10 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+      
+      <div className="container mx-auto px-4 relative">
+        <div className="text-center mb-16">
+          <motion.h2 
+            className="text-4xl font-bold text-gray-900 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            Отзывы наших клиентов
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            Более 5000 довольных клиентов доверили нам свои устройства
+          </motion.p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          {/* Основной слайдер */}
+          <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="absolute top-6 left-6 text-blue-100 opacity-50">
+              <FaQuoteLeft className="w-16 h-16" />
+            </div>
+            
+            <div className="min-h-[320px] md:min-h-[280px] p-8 md:p-12">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={index}
-                  className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.3) }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  key={activeIndex}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="flex flex-col h-full"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900">
-                        {review.name}
+                  <div className="flex flex-col md:flex-row md:items-center mb-6 gap-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-gray-900">
+                        {reviews[activeIndex].name}
                       </h3>
-                      <p className="text-gray-500 text-xs md:text-sm">{review.date}</p>
+                      <p className="text-gray-500 text-sm">{reviews[activeIndex].date}</p>
                     </div>
-                    <div className="flex text-yellow-400">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <FaStar key={i} className="w-3 h-3 md:w-4 md:h-4" />
-                      ))}
-                      {[...Array(5 - review.rating)].map((_, i) => (
-                        <FaStar key={i + review.rating} className="w-3 h-3 md:w-4 md:h-4 text-gray-200" />
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar
+                          key={i}
+                          className={`w-5 h-5 ${
+                            i < reviews[activeIndex].rating
+                              ? "text-yellow-400"
+                              : "text-gray-200"
+                          }`}
+                        />
                       ))}
                     </div>
                   </div>
                   
-                  <p className="text-sm md:text-base text-gray-600 mb-4">{review.text}</p>
+                  <p className="text-gray-600 text-lg mb-6 flex-grow">
+                    "{reviews[activeIndex].text}"
+                  </p>
                   
-                  <div className="flex flex-wrap gap-2 items-center text-xs md:text-sm text-gray-500">
-                    <span className="px-2 py-1 bg-blue-50 rounded-full">
-                      {review.device}
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
+                      {reviews[activeIndex].device}
                     </span>
-                    <span className="px-2 py-1 bg-green-50 rounded-full">
-                      {review.service}
+                    <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm font-medium">
+                      {reviews[activeIndex].service}
                     </span>
                   </div>
                 </motion.div>
-              ))}
-            </motion.div>
+              </AnimatePresence>
+            </div>
+            
+            {/* Навигация */}
+            <div className="bg-gray-50 p-4 flex items-center justify-between">
+              <button
+                onClick={handlePrev}
+                className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors"
+                aria-label="Предыдущий отзыв"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+              
+              <div className="flex space-x-2">
+                {reviews.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all ${
+                      activeIndex === index
+                        ? "bg-blue-600 w-6"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Перейти к отзыву ${index + 1}`}
+                  />
+                ))}
+              </div>
+              
+              <button
+                onClick={handleNext}
+                className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors"
+                aria-label="Следующий отзыв"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
           
-          {/* Индикаторы */}
-          <div className="flex justify-center mt-8 space-x-2">
-            {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-              <button
+          {/* Миниатюры отзывов (только для десктопа) */}
+          <div className="hidden lg:grid grid-cols-3 gap-6 mt-8">
+            {[0, 1, 2].map((index) => (
+              <motion.button
                 key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
-                  currentIndex === index ? 'bg-blue-600 scale-110' : 'bg-gray-300'
+                className={`text-left p-4 rounded-xl transition-all ${
+                  activeIndex === index
+                    ? "bg-white shadow-lg scale-105"
+                    : "bg-white/50 hover:bg-white hover:shadow"
                 }`}
-                aria-label={`Перейти к отзыву ${index + 1}`}
-              />
+                onClick={() => handleDotClick(index)}
+                whileHover={{ y: -5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="flex items-center mb-2">
+                  <h4 className="font-medium text-gray-900 mr-2">
+                    {reviews[index].name}
+                  </h4>
+                  <div className="flex">
+                    {[...Array(reviews[index].rating)].map((_, i) => (
+                      <FaStar key={i} className="w-3 h-3 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm line-clamp-2">
+                  {reviews[index].text}
+                </p>
+              </motion.button>
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 } 
