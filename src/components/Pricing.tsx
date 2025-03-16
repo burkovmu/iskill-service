@@ -218,15 +218,19 @@ export default function Pricing() {
 
           {/* Карточки с ценами */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {getDisplayedItems().map((item, index) => (
                 <motion.div
                   key={item.model}
                   className="bg-white rounded-xl shadow-lg overflow-hidden"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                  transition={{ 
+                    duration: 0.4, 
+                    delay: index * 0.05,
+                    ease: "easeInOut"
+                  }}
                   layout
                 >
                   <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-4">
@@ -269,7 +273,7 @@ export default function Pricing() {
                 <span>{showAll ? 'Показать меньше' : 'Показать больше'}</span>
                 <motion.div
                   animate={{ rotate: showAll ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <FaChevronDown className="ml-2" />
                 </motion.div>

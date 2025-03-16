@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FaPhone, FaMapMarkerAlt, FaClock, FaEnvelope, FaTelegram, FaWhatsapp } from 'react-icons/fa'
+import { FaPhone, FaMapMarkerAlt, FaClock, FaTelegram, FaWhatsapp } from 'react-icons/fa'
 
 export default function Contact() {
   return (
@@ -167,20 +167,6 @@ export default function Contact() {
                   <span>WhatsApp</span>
                 </motion.a>
               </div>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">Email</h3>
-              <motion.a
-                href="mailto:info@iskill.ru"
-                className="flex items-center space-x-4 text-gray-600 hover:text-blue-600 transition-colors"
-                whileHover={{ x: 5 }}
-              >
-                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <FaEnvelope className="w-5 h-5 text-blue-600" />
-                </div>
-                <span>info@iskill.ru</span>
-              </motion.a>
             </div>
           </motion.div>
         </div>
