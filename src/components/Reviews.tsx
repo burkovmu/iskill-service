@@ -69,20 +69,6 @@ export default function Reviews() {
     setCurrentIndex(prev => Math.max(prev - 1, 0));
   };
 
-  // Определяем количество видимых элементов в зависимости от ширины экрана
-  const getVisibleItems = () => {
-    // На мобильных устройствах показываем по одному отзыву
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      return 1;
-    }
-    // На планшетах показываем по два отзыва
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      return 2;
-    }
-    // На десктопе показываем по три отзыва
-    return maxVisibleItems;
-  };
-
   return (
     <section id="reviews" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
