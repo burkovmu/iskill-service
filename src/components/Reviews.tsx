@@ -104,8 +104,8 @@ export default function Reviews() {
         <div className="max-w-4xl mx-auto">
           {/* Основной слайдер */}
           <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="absolute top-6 left-6 text-blue-100 opacity-50">
-              <FaQuoteLeft className="w-16 h-16" />
+            <div className="absolute top-6 left-6 text-blue-100 opacity-30">
+              <FaQuoteLeft className="w-12 h-12" />
             </div>
             
             <div className="min-h-[320px] md:min-h-[280px] p-8 md:p-12">
