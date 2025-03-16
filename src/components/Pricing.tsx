@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { FaMobileAlt, FaTabletAlt, FaLaptop } from 'react-icons/fa'
+import { FaMobileAlt, FaTabletAlt, FaLaptop, FaChevronDown } from 'react-icons/fa'
 import OrderModal from './OrderModal'
 
 const priceList = {
@@ -166,12 +166,19 @@ type DeviceCategory = 'iphone' | 'macbook' | 'ipad'
 export default function Pricing() {
   const [activeCategory, setActiveCategory] = useState<DeviceCategory>('iphone')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showAll, setShowAll] = useState(false)
 
   const categories = [
     { id: 'iphone', name: 'iPhone', icon: FaMobileAlt },
     { id: 'macbook', name: 'MacBook', icon: FaLaptop },
     { id: 'ipad', name: 'iPad', icon: FaTabletAlt }
   ]
+
+  // Функция для получения отображаемых элементы (первые 3 или все)
+  const getDisplayedItems = () => {
+    const items = priceList[activeCategory];
+    return showAll ? items : items.slice(0, 3);
+  }
 
   return (
     <>
@@ -195,7 +202,10 @@ export default function Pricing() {
                       ? 'bg-white text-blue-600 shadow-md'
                       : 'text-gray-600 hover:text-blue-600'
                   }`}
-                  onClick={() => setActiveCategory(category.id as DeviceCategory)}
+                  onClick={() => {
+                    setActiveCategory(category.id as DeviceCategory);
+                    setShowAll(false); // Сбрасываем состояние при смене категории
+                  }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -208,36 +218,64 @@ export default function Pricing() {
 
           {/* Карточки с ценами */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {priceList[activeCategory].map((item, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-xl shadow-lg overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-4">
-                  <h3 className="text-xl font-semibold text-white text-center">
-                    {item.model}
-                  </h3>
-                </div>
-                <div className="p-6">
-                  {item.services.map((service, serviceIndex) => (
-                    <div
-                      key={serviceIndex}
-                      className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0"
-                    >
-                      <span className="text-gray-600">{service.name}</span>
-                      <span className="font-semibold text-gray-900">
-                        {service.price} ₽
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+            <AnimatePresence>
+              {getDisplayedItems().map((item, index) => (
+                <motion.div
+                  key={item.model}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  layout
+                >
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-4">
+                    <h3 className="text-xl font-semibold text-white text-center">
+                      {item.model}
+                    </h3>
+                  </div>
+                  <div className="p-6">
+                    {item.services.map((service, serviceIndex) => (
+                      <div
+                        key={serviceIndex}
+                        className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0"
+                      >
+                        <span className="text-gray-600">{service.name}</span>
+                        <span className="font-semibold text-gray-900">
+                          {service.price} ₽
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
+
+          {/* Кнопка "Показать больше" */}
+          {priceList[activeCategory].length > 3 && (
+            <motion.div 
+              className="text-center mt-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.button
+                onClick={() => setShowAll(!showAll)}
+                className="inline-flex items-center justify-center px-6 py-3 bg-white border border-blue-200 text-blue-600 rounded-xl font-medium shadow-sm hover:shadow-md transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{showAll ? 'Показать меньше' : 'Показать больше'}</span>
+                <motion.div
+                  animate={{ rotate: showAll ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <FaChevronDown className="ml-2" />
+                </motion.div>
+              </motion.button>
+            </motion.div>
+          )}
 
           <motion.div 
             className="text-center mt-12 space-y-4"
