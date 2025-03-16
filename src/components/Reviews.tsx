@@ -57,7 +57,8 @@ const reviews = [
 
 export default function Reviews() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const maxIndex = Math.max(0, reviews.length - 3);
+  const maxVisibleItems = 3; // Количество видимых элементов на десктопе
+  const maxIndex = Math.max(0, reviews.length - maxVisibleItems);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = () => {
@@ -66,6 +67,20 @@ export default function Reviews() {
 
   const prevSlide = () => {
     setCurrentIndex(prev => Math.max(prev - 1, 0));
+  };
+
+  // Определяем количество видимых элементов в зависимости от ширины экрана
+  const getVisibleItems = () => {
+    // На мобильных устройствах показываем по одному отзыву
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return 1;
+    }
+    // На планшетах показываем по два отзыва
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      return 2;
+    }
+    // На десктопе показываем по три отзыва
+    return maxVisibleItems;
   };
 
   return (
@@ -78,29 +93,31 @@ export default function Reviews() {
           Более 5000 довольных клиентов доверили нам свои устройства
         </p>
         
-        <div className="relative">
+        <div className="relative px-4 md:px-10">
           {/* Кнопки навигации */}
-          <div className="absolute top-1/2 -left-4 -translate-y-1/2 z-10 hidden md:block">
+          <div className="absolute top-1/2 -left-2 md:left-0 -translate-y-1/2 z-10">
             <button 
               onClick={prevSlide}
               disabled={currentIndex === 0}
-              className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
+              className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
                 currentIndex === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
               }`}
+              aria-label="Предыдущий отзыв"
             >
-              <FaChevronLeft />
+              <FaChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
             </button>
           </div>
           
-          <div className="absolute top-1/2 -right-4 -translate-y-1/2 z-10 hidden md:block">
+          <div className="absolute top-1/2 -right-2 md:right-0 -translate-y-1/2 z-10">
             <button 
               onClick={nextSlide}
               disabled={currentIndex === maxIndex}
-              className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
+              className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-md bg-white ${
                 currentIndex === maxIndex ? 'text-gray-300 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
               }`}
+              aria-label="Следующий отзыв"
             >
-              <FaChevronRight />
+              <FaChevronRight className="w-3 h-3 md:w-4 md:h-4" />
             </button>
           </div>
           
@@ -108,43 +125,51 @@ export default function Reviews() {
           <div className="overflow-hidden">
             <motion.div 
               ref={containerRef}
-              className="flex gap-8"
-              animate={{ x: `-${currentIndex * 33.33}%` }}
+              className="flex gap-4 md:gap-6 lg:gap-8"
+              animate={{ 
+                x: typeof window !== 'undefined' 
+                  ? window.innerWidth < 768 
+                    ? `-${currentIndex * 100}%` 
+                    : window.innerWidth < 1024 
+                      ? `-${currentIndex * 50}%` 
+                      : `-${currentIndex * (100/3)}%`
+                  : `-${currentIndex * (100/3)}%`
+              }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               {reviews.map((review, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow min-w-[100%] md:min-w-[calc(33.33%-1rem)]"
+                  className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.3) }}
+                  viewport={{ once: true, margin: "-100px" }}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900">
+                      <h3 className="text-lg md:text-xl font-semibold text-gray-900">
                         {review.name}
                       </h3>
-                      <p className="text-gray-500 text-sm">{review.date}</p>
+                      <p className="text-gray-500 text-xs md:text-sm">{review.date}</p>
                     </div>
                     <div className="flex text-yellow-400">
                       {[...Array(review.rating)].map((_, i) => (
-                        <FaStar key={i} />
+                        <FaStar key={i} className="w-3 h-3 md:w-4 md:h-4" />
                       ))}
                       {[...Array(5 - review.rating)].map((_, i) => (
-                        <FaStar key={i + review.rating} className="text-gray-200" />
+                        <FaStar key={i + review.rating} className="w-3 h-3 md:w-4 md:h-4 text-gray-200" />
                       ))}
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 mb-4">{review.text}</p>
+                  <p className="text-sm md:text-base text-gray-600 mb-4">{review.text}</p>
                   
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="px-3 py-1 bg-blue-50 rounded-full">
+                  <div className="flex flex-wrap gap-2 items-center text-xs md:text-sm text-gray-500">
+                    <span className="px-2 py-1 bg-blue-50 rounded-full">
                       {review.device}
                     </span>
-                    <span className="px-3 py-1 bg-green-50 rounded-full">
+                    <span className="px-2 py-1 bg-green-50 rounded-full">
                       {review.service}
                     </span>
                   </div>
@@ -153,15 +178,16 @@ export default function Reviews() {
             </motion.div>
           </div>
           
-          {/* Индикаторы для мобильной версии */}
-          <div className="flex justify-center mt-8 space-x-2 md:hidden">
-            {Array.from({ length: reviews.length }).map((_, index) => (
+          {/* Индикаторы */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full ${
-                  currentIndex === index ? 'bg-blue-600' : 'bg-gray-300'
+                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
+                  currentIndex === index ? 'bg-blue-600 scale-110' : 'bg-gray-300'
                 }`}
+                aria-label={`Перейти к отзыву ${index + 1}`}
               />
             ))}
           </div>
