@@ -148,7 +148,7 @@ export default function Contact() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">Мессенджеры</h3>
               <div className="flex space-x-4">
                 <motion.a
-                  href="#"
+                  href="https://t.me/+79939073077"
                   className="flex-1 flex items-center justify-center space-x-2 py-3 bg-[#0088cc] text-white rounded-xl font-medium hover:bg-[#0099dd] transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -157,7 +157,7 @@ export default function Contact() {
                   <span>Telegram</span>
                 </motion.a>
                 <motion.a
-                  href="#"
+                  href="https://wa.me/79939073077"
                   className="flex-1 flex items-center justify-center space-x-2 py-3 bg-[#25D366] text-white rounded-xl font-medium hover:bg-[#22c35e] transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
