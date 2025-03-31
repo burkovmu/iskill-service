@@ -60,7 +60,7 @@ export default function Contact() {
                       type="tel"
                       id="phone"
                       className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-500"
-                      placeholder="+7 (999) 999-99-99"
+                      placeholder="+7 (993) 907-30-77"
                     />
                   </div>
                 </div>
@@ -106,8 +106,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">Телефон</h4>
-                    <p className="text-gray-600">+7 (495) 123-45-67</p>
-                    <p className="text-gray-600">+7 (495) 765-43-21</p>
+                    <p className="text-gray-600">+7 (993) 907-30-77</p>
                   </div>
                 </motion.div>
                 
@@ -121,10 +120,10 @@ export default function Contact() {
                   <div>
                     <h4 className="font-semibold text-gray-900">Адрес</h4>
                     <p className="text-gray-600">
-                      г. Москва, ул. Примерная, д. 1
+                      г. Москва, улица Сущёвский вал 5с20
                     </p>
                     <p className="text-gray-600">
-                      5 минут от м. Пример
+                      5 минут от м. Савеловская
                     </p>
                   </div>
                 </motion.div>

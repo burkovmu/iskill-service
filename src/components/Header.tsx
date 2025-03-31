@@ -161,8 +161,8 @@ export default function Header() {
                     <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
                       <h4 className="font-semibold mb-2">Нужна помощь?</h4>
                       <p className="text-sm mb-4">Позвоните нам, и мы проконсультируем вас по любому вопросу</p>
-                      <a href="tel:+74951234567" className="inline-flex items-center justify-center w-full py-2 bg-white text-blue-600 rounded-lg font-medium">
-                        +7 (495) 123-45-67
+                      <a href="tel:+79939073077" className="inline-flex items-center justify-center w-full py-2 bg-white text-blue-600 rounded-lg font-medium">
+                        +7 (993) 907-30-77
                       </a>
                     </div>
                   </motion.div>

@@ -99,7 +99,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-500"
-                        placeholder="+7 (999) 999-99-99"
+                        placeholder="+7 (993) 907-30-77"
                         required
                       />
                     </div>
